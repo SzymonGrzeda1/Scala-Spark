@@ -17,9 +17,13 @@ object PizzaApp {
 
     val pizzaCleanDF: Dataset[Row] = pizzaRawDF.withColumn("Price", regexp_replace(col("Price"), "[$.]", "").cast(DataTypes.DoubleType))
 
+    //val pizzaRoundDF: Dataset[Row] = pizzaCleanDF.withColumn("Price", round(col("Price"), 2))
+
     val companiseWithAvgPricesDF: Dataset[Row] = pizzaCleanDF.groupBy("Company").avg("Price")
 
-    companiseWithAvgPricesDF.show()
-    companiseWithAvgPricesDF.printSchema()
+    val companiseWithAvgPricesRoundDF: Dataset[Row] = companiseWithAvgPricesDF.withColumn("avg(Price)", round(col("avg(Price)"), 2))
+
+    companiseWithAvgPricesRoundDF.show()
+    companiseWithAvgPricesRoundDF.printSchema()
   }
 }
