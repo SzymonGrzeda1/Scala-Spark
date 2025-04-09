@@ -1,0 +1,8 @@
+//add file to hadoop
+./hdfs dfs -put /home/hadoop/spark-3.5.5-bin-hadoop3/README.md /
+
+//process in spark and check result Spark context Web UI 
+import org.apache.spark.sql.functions._
+val string = spark.read.text("/README.md")
+val filtered = strings.filter(col("value").contains("Spark"))
+filtered.count()
